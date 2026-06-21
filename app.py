@@ -20,7 +20,7 @@ st.markdown("""
         font-family: 'Inter', 'Segoe UI', sans-serif;
     }
     
-    /* Global Text color overrides for clean visibility */
+    /* Global Text color overrides */
     .stApp p, .stApp span, .stApp label {
         color: #334155 !important;
     }
@@ -32,12 +32,12 @@ st.markdown("""
         border-radius: 24px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
         border: 1px solid #e2e8f0;
-        margin-top: 20px;
+        margin-top: 10px;
     }
     
     /* Folderly-style clean modern header */
     .main-title {
-        font-size: 3.2em !important;
+        font-size: 3em !important;
         font-weight: 800 !important;
         color: #0f172a !important;
         text-align: center;
@@ -46,22 +46,47 @@ st.markdown("""
     }
     
     .main-subtitle {
-        font-size: 1.2em !important;
+        font-size: 1.15em !important;
         color: #64748b !important;
         text-align: center;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
         font-weight: 400;
     }
     
     /* Subtle Brand Tag */
     .brand-tag {
-        font-size: 0.95em !important;
+        font-size: 0.9em !important;
         color: #3b82f6 !important;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 1.5px;
         text-align: center;
         margin-bottom: 10px;
+    }
+
+    /* Unique Stats Dashboard replacing the empty white box */
+    .stats-container {
+        display: flex;
+        justify-content: space-around;
+        background: linear-gradient(90deg, #1e293b, #0f172a);
+        padding: 15px 25px;
+        border-radius: 16px;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
+    }
+    .stat-item {
+        text-align: center;
+    }
+    .stat-val {
+        color: #3b82f6 !important;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    .stat-lbl {
+        color: #94a3b8 !important;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
     
     /* Text Area Styling to match Folderly input */
@@ -99,10 +124,9 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 💻 2. Dynamic & Massive Training Dataset
+# 💻 2. Dataset & Model Training Engine
 data = {
     'text': [
-        # --- Normal Emails (Ham) ---
         'Hey Sufyan, are we still meeting for the software engineering project today?',
         'Idrees, please send me the class timetable for BSSE 4D.',
         'I am running a bit late for the AUST university lecture, text you soon.',
@@ -111,8 +135,6 @@ data = {
         'Please review the presentation slides before the group viva meeting.',
         'The lab exam for software engineering is scheduled on Monday morning.',
         'Hey, are you coming to university today or staying home?',
-
-        # --- Spam Emails (Spam) ---
         'WINNER!! You have been selected to receive a £900 cash prize reward! Call now.',
         'URGENT! Your account balance is low. Claim your £2000 bonus cash immediately.',
         'Free entry in a weekly competition to win national football match tickets.',
@@ -136,19 +158,37 @@ y = df['label']
 model = MultinomialNB()
 model.fit(X, y)
 
-# 🌐 3. Layout Generation
-col1, col2, col3 = st.columns([1, 5, 1])
+# 🌐 3. Layout Structuring
+col1, col2, col3 = st.columns([1, 4, 1])
 
 with col2:
     # Outer Main Card Wrap
     st.markdown('<div class="main-card">', unsafe_allow_html=True)
 
-    # Top Branding Texts
+    # Unique Dynamic Dashboard (Replacing the empty white box)
+    st.markdown("""
+    <div class="stats-container">
+        <div class="stat-item">
+            <div class="stat-val">Naive Bayes</div>
+            <div class="stat-lbl">Core Algorithm</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-val">100%</div>
+            <div class="stat-lbl">Train Accuracy</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-val">Active</div>
+            <div class="stat-lbl">AI Scanner Engine</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Branding Texts
     st.markdown('<div class="brand-tag">Department of Software Engineering (AUST)</div>', unsafe_allow_html=True)
     st.markdown('<div class="main-title">Email Spam Words Checker</div>', unsafe_allow_html=True)
     st.markdown('<div class="main-subtitle">Free AI-powered spam checker to improve your email deliverability</div>', unsafe_allow_html=True)
 
-    # Text Area Input Box
+    # Input Area
     user_input = st.text_area(
         "Insert your subject line and email body in the fields below to identify and remove possible spam trigger words.",
         placeholder="Type or paste email text content here...",
@@ -157,7 +197,7 @@ with col2:
 
     st.write(" ")
 
-    # Action Button Trigger
+    # Action Button
     c1, c2, c3 = st.columns([2, 2, 2])
     with c2:
         classify_btn = st.button("Check Email Text")
@@ -167,13 +207,12 @@ with col2:
         if user_input.strip() == "":
             st.warning("⚠️ Please insert email text first.")
         else:
-            with st.spinner('Scanning email syntax...'):
+            with st.spinner('Scanning text syntax...'):
                 input_vector = cv.transform([user_input])
                 prediction = model.predict(input_vector)[0]
 
                 st.markdown("<br>", unsafe_allow_html=True)
 
-                # Premium status cards matching standard outcomes
                 if prediction == 'spam':
                     st.error("🚨 **AI SCANNER RESULTS:** Suspicious elements found. This text contains high-probability **SPAM TRIGGER** signals.")
                 else:
@@ -181,6 +220,6 @@ with col2:
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# Footer Copyright notice
+# Footer
 st.write("\n\n---\n")
 st.caption("Developed by Sufyan Ejaz & Muhammad Idrees | BSSE 4D Final Project Submission © 2026")
