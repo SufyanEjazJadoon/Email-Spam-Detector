@@ -14,9 +14,13 @@ data = {
         'Idrees, please send me the class timetable for BSSE 4D.',
         'URGENT! Your account balance is low. Claim your £2000 bonus cash immediately.',
         'Free entry in a weekly competition to win national football match tickets.',
-        'I am running a bit late for the AUST university lecture, text you soon.'
+        'I am running a bit late for the AUST university lecture, text you soon.',
+        # New generic spam patterns added here:
+        'You won 20000 dollar lottery cash prize click here to claim now',
+        'Congratulations you won free cash rewards and dollar bonus',
+        'Dear student, your assignment submission date has been extended.'
     ],
-    'label': ['ham', 'spam', 'ham', 'spam', 'spam', 'ham']
+    'label': ['ham', 'spam', 'ham', 'spam', 'spam', 'ham', 'spam', 'spam', 'ham']
 }
 df = pd.DataFrame(data)
 
